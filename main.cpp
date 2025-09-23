@@ -24,7 +24,7 @@ void update();
 void render();
 void shutdown();
 
-void initialise() {
+void initialize() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello raylib!");
     SetTargetFPS(FPS);
 }
