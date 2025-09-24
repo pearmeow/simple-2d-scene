@@ -15,7 +15,13 @@
 enum AppStatus { RUNNING, TERMINATED };
 
 constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 60, SIDES = 4;
+constexpr char DEFECT_FP[] = "assets/defect.png";
+constexpr char DARKORB_FP[] = "assets/darkOrb.png";
+constexpr char DONU_FP[] = "assets/donu.png";
 
+Texture2D gDefect;
+Texture2D gDarkOrb;
+Texture2D gDonu;
 AppStatus gAppStatus = RUNNING;
 
 void initialize();
@@ -26,6 +32,11 @@ void shutdown();
 
 void initialize() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello raylib!");
+
+    gDefect = LoadTexture(DEFECT_FP);
+    gDarkOrb = LoadTexture(DARKORB_FP);
+    gDonu = LoadTexture(DONU_FP);
+
     SetTargetFPS(FPS);
 }
 
