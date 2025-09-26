@@ -22,6 +22,19 @@ constexpr char DONU_FP[] = "assets/donu.png";
 Texture2D gDefect;
 Texture2D gDarkOrb;
 Texture2D gDonu;
+
+constexpr Vector2 FIRST_THIRD = {SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
+constexpr Vector2 SECOND_THIRD = {2.0f * SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
+constexpr Vector2 BASE_SIZE = {200.0f, 200.0f};
+
+Vector2 gDefectPos = FIRST_THIRD;
+Vector2 gOrbPos = gDefectPos;
+Vector2 gDonuPos = SECOND_THIRD;
+
+// both of them are going to scale the same
+Vector2 gScale = BASE_SIZE;
+Vector2 gOrbScale = {50.0f, 50.0f};
+
 AppStatus gAppStatus = RUNNING;
 
 void initialize();
@@ -53,6 +66,41 @@ void update() {
 void render() {
     BeginDrawing();
     ClearBackground(WHITE);
+    Rectangle defectArea = {0.0f, 0.0f, static_cast<float>(gDefect.width), static_cast<float>(gDefect.height)};
+    Rectangle darkOrbArea = {0.0f, 0.0f, static_cast<float>(gDarkOrb.width), static_cast<float>(gDarkOrb.height)};
+    Rectangle donuArea = {0.0f, 0.0f, static_cast<float>(gDonu.width), static_cast<float>(gDonu.height)};
+
+    // first 1/3 of screen
+    Rectangle defectDest = {gDefectPos.x, gDefectPos.y, gScale.x, gScale.y};
+
+    // surrounds defect
+    Rectangle darkOrbDest = {
+        gOrbPos.x,
+        gOrbPos.y,
+        gOrbScale.x,
+        gOrbScale.y,
+    };
+
+    // 2nd third of screen
+    Rectangle donuDest = {gDonuPos.x, gDonuPos.y, gScale.x, gScale.y};
+
+    Vector2 defectOrigin = {
+        gScale.x / 2.0f,
+        gScale.y / 2.0f,
+    };
+    Vector2 darkOrbOrigin = {
+        gOrbScale.x / 2.0f,
+        gOrbScale.y / 2.0f,
+    };
+    Vector2 donuOrigin = {
+        gScale.x / 2.0f,
+        gScale.y / 2.0f,
+    };
+
+    DrawTexturePro(gDefect, defectArea, defectDest, defectOrigin, 0.0f, WHITE);
+    DrawTexturePro(gDarkOrb, darkOrbArea, darkOrbDest, darkOrbOrigin, 0.0f, WHITE);
+    DrawTexturePro(gDonu, donuArea, donuDest, donuOrigin, 0.0f, WHITE);
+
     // use a texture
     EndDrawing();
 }
