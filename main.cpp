@@ -74,17 +74,14 @@ void update() {
     gOrbScale.x += gScaleDirection * 15.0f * deltaTime;
     gOrbScale.y += gScaleDirection * 15.0f * deltaTime;
 
-    // do some time based changes here
-    // also update xy positions of textures here
-
-    // defect will move in an ellipse (kinda maybe)
     gDefectPos.x = FIRST_THIRD.x + MAX_AMP * std::cos(ticks);
     gDefectPos.y = FIRST_THIRD.y + MAX_AMP / 4.0f * std::sin(ticks);
-    // the orb will circle the defect
+
     gOrbPos.x = gDefectPos.x + MAX_AMP * 3 * std::cos(ticks);
     gOrbPos.y = gDefectPos.y + MAX_AMP * 3 * std::sin(ticks);
-    // donu will move in a swirl maybe?
+
     gDonuPos.x = SECOND_THIRD.x + MAX_AMP * std::cos(ticks);
+    // -1 makes it so that donu moves in positive y
     gDonuPos.y = SECOND_THIRD.y + MAX_AMP / 4.0f * -1 * std::abs(std::sin(ticks));
 }
 
@@ -126,7 +123,6 @@ void render() {
     DrawTexturePro(gDefect, defectArea, defectDest, defectOrigin, 0.0f, WHITE);
     DrawTexturePro(gDarkOrb, darkOrbArea, darkOrbDest, darkOrbOrigin, 0.0f, WHITE);
 
-    // use a texture
     EndDrawing();
 }
 
