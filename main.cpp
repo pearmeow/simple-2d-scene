@@ -122,9 +122,9 @@ void render() {
         gScale.y / 2.0f,
     };
 
+    DrawTexturePro(gDonu, donuArea, donuDest, donuOrigin, 0.0f, WHITE);
     DrawTexturePro(gDefect, defectArea, defectDest, defectOrigin, 0.0f, WHITE);
     DrawTexturePro(gDarkOrb, darkOrbArea, darkOrbDest, darkOrbOrigin, 0.0f, WHITE);
-    DrawTexturePro(gDonu, donuArea, donuDest, donuOrigin, 0.0f, WHITE);
 
     // use a texture
     EndDrawing();
