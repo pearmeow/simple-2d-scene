@@ -15,7 +15,7 @@
 enum AppStatus { RUNNING, TERMINATED };
 enum ScaleDirection { INCREASING = 1, DECREASING = -1 };
 
-constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 160, SIDES = 4;
+constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 60, SIDES = 4;
 constexpr char DEFECT_FP[] = "assets/defect.png";
 constexpr char DARKORB_FP[] = "assets/darkOrb.png";
 constexpr char DONU_FP[] = "assets/donu.png";
@@ -36,6 +36,10 @@ Vector2 gDonuPos = SECOND_THIRD;
 Vector2 gScale = BASE_SIZE;
 Vector2 gOrbScale = {70.0f, 70.0f};
 float gPreviousTicks = 0.0f;
+
+Color gBackgroundColor[4] = {WHITE, LIGHTGRAY, BLUE, VIOLET};
+int gBackgroundIndex = 0;
+float gFrameNum = 0.0f;
 
 AppStatus gAppStatus = RUNNING;
 ScaleDirection gScaleDirection = INCREASING;
@@ -63,6 +67,12 @@ void processInput() {
 }
 
 void update() {
+    gFrameNum += 1.0f;
+    if (gFrameNum > 200.0f) {
+        gFrameNum = 0;
+        gBackgroundIndex = (gBackgroundIndex + 1) % 4;
+    }
+
     float ticks = (float)GetTime();
     float deltaTime = ticks - gPreviousTicks;
     gPreviousTicks = ticks;
@@ -87,7 +97,7 @@ void update() {
 
 void render() {
     BeginDrawing();
-    ClearBackground(WHITE);
+    ClearBackground(gBackgroundColor[gBackgroundIndex]);
     Rectangle defectArea = {0.0f, 0.0f, static_cast<float>(gDefect.width), static_cast<float>(gDefect.height)};
     Rectangle darkOrbArea = {0.0f, 0.0f, static_cast<float>(gDarkOrb.width), static_cast<float>(gDarkOrb.height)};
     Rectangle donuArea = {0.0f, 0.0f, static_cast<float>(gDonu.width), static_cast<float>(gDonu.height)};
