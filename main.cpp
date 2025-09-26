@@ -35,6 +35,7 @@ Vector2 gDonuPos = SECOND_THIRD;
 // characters scale the same
 Vector2 gScale = BASE_SIZE;
 Vector2 gOrbScale = {70.0f, 70.0f};
+float gDonuRotation = 0.0f;
 float gPreviousTicks = 0.0f;
 
 Color gBackgroundColor[4] = {WHITE, LIGHTGRAY, BLUE, VIOLET};
@@ -84,6 +85,11 @@ void update() {
     gOrbScale.x += gScaleDirection * 15.0f * deltaTime;
     gOrbScale.y += gScaleDirection * 15.0f * deltaTime;
 
+    gDonuRotation = (gDonuRotation + 25.0f * deltaTime);
+    if (gDonuRotation > 360.0f) {
+        gDonuRotation = 0.0f;
+    }
+
     gDefectPos.x = FIRST_THIRD.x + MAX_AMP * std::cos(ticks);
     gDefectPos.y = FIRST_THIRD.y + MAX_AMP / 4.0f * std::sin(ticks);
 
@@ -129,7 +135,7 @@ void render() {
         gScale.y / 2.0f,
     };
 
-    DrawTexturePro(gDonu, donuArea, donuDest, donuOrigin, 0.0f, WHITE);
+    DrawTexturePro(gDonu, donuArea, donuDest, donuOrigin, gDonuRotation, WHITE);
     DrawTexturePro(gDefect, defectArea, defectDest, defectOrigin, 0.0f, WHITE);
     DrawTexturePro(gDarkOrb, darkOrbArea, darkOrbDest, darkOrbOrigin, 0.0f, WHITE);
 
