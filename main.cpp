@@ -18,22 +18,23 @@ constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 60, SIDES = 4;
 constexpr char DEFECT_FP[] = "assets/defect.png";
 constexpr char DARKORB_FP[] = "assets/darkOrb.png";
 constexpr char DONU_FP[] = "assets/donu.png";
+constexpr Vector2 FIRST_THIRD = {SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
+constexpr Vector2 SECOND_THIRD = {2.0f * SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
+constexpr Vector2 BASE_SIZE = {200.0f, 200.0f};
+constexpr float MAX_AMP = 50.0f;
 
 Texture2D gDefect;
 Texture2D gDarkOrb;
 Texture2D gDonu;
 
-constexpr Vector2 FIRST_THIRD = {SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
-constexpr Vector2 SECOND_THIRD = {2.0f * SCREEN_WIDTH / 3.0f, SCREEN_HEIGHT / 2.0f};
-constexpr Vector2 BASE_SIZE = {200.0f, 200.0f};
-
 Vector2 gDefectPos = FIRST_THIRD;
 Vector2 gOrbPos = gDefectPos;
 Vector2 gDonuPos = SECOND_THIRD;
 
-// both of them are going to scale the same
+// characters scale the same
 Vector2 gScale = BASE_SIZE;
-Vector2 gOrbScale = {50.0f, 50.0f};
+Vector2 gOrbScale = {70.0f, 70.0f};
+float gPreviousTicks = 0.0f;
 
 AppStatus gAppStatus = RUNNING;
 
@@ -60,7 +61,20 @@ void processInput() {
 }
 
 void update() {
+    float ticks = (float)GetTime();
+    float deltaTime = ticks - gPreviousTicks;
+    gPreviousTicks = ticks;
+
     // do some time based changes here
+    // also update xy positions of textures here
+
+    // defect will move in an ellipse (kinda maybe)
+    gDefectPos.x = FIRST_THIRD.x + MAX_AMP * std::cos(ticks);
+    gDefectPos.y = FIRST_THIRD.y + MAX_AMP / 4.0f * std::sin(ticks);
+    // the orb will circle the defect
+    gOrbPos.x = gDefectPos.x + MAX_AMP * 3 * std::cos(ticks);
+    gOrbPos.y = gDefectPos.y + MAX_AMP * 3 * std::sin(ticks);
+    // donu will move in a swirl maybe?
 }
 
 void render() {
