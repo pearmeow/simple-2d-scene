@@ -13,8 +13,9 @@
 #include "raylib.h"
 
 enum AppStatus { RUNNING, TERMINATED };
+enum ScaleDirection { INCREASING = 1, DECREASING = -1 };
 
-constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 60, SIDES = 4;
+constexpr int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450, FPS = 160, SIDES = 4;
 constexpr char DEFECT_FP[] = "assets/defect.png";
 constexpr char DARKORB_FP[] = "assets/darkOrb.png";
 constexpr char DONU_FP[] = "assets/donu.png";
@@ -37,6 +38,7 @@ Vector2 gOrbScale = {70.0f, 70.0f};
 float gPreviousTicks = 0.0f;
 
 AppStatus gAppStatus = RUNNING;
+ScaleDirection gScaleDirection = INCREASING;
 
 void initialize();
 void processInput();
@@ -64,6 +66,13 @@ void update() {
     float ticks = (float)GetTime();
     float deltaTime = ticks - gPreviousTicks;
     gPreviousTicks = ticks;
+    if (gOrbScale.x > 200.0f) {
+        gScaleDirection = DECREASING;
+    } else if (gOrbScale.x < 70.0f) {
+        gScaleDirection = INCREASING;
+    }
+    gOrbScale.x += gScaleDirection * 15.0f * deltaTime;
+    gOrbScale.y += gScaleDirection * 15.0f * deltaTime;
 
     // do some time based changes here
     // also update xy positions of textures here
@@ -75,6 +84,8 @@ void update() {
     gOrbPos.x = gDefectPos.x + MAX_AMP * 3 * std::cos(ticks);
     gOrbPos.y = gDefectPos.y + MAX_AMP * 3 * std::sin(ticks);
     // donu will move in a swirl maybe?
+    gDonuPos.x = SECOND_THIRD.x + MAX_AMP * std::cos(ticks);
+    gDonuPos.y = SECOND_THIRD.y + MAX_AMP / 4.0f * -1 * std::abs(std::sin(ticks));
 }
 
 void render() {
